@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 /*
 Uses constructor injection for the ProductService
@@ -22,7 +21,7 @@ GET /products/category/{category} - Get products by category
 GET /products/price?min={min}&max={max} - Get products by price range
  */
 @RestController
-@RequestMapping(path = "/products", headers = "API-key=123456")
+@RequestMapping(path = "api/products")
 
 public class ProductController {
     private final ProductService productService;
@@ -42,9 +41,6 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @GetMapping({"{id}"})
-    public Product getProductById (@RequestParam @Valid UUID id) {return productService.getProductById(id);}
-
     @GetMapping("{name}")
     public Object getProductByName(@PathVariable @Valid String name) {
         return productService.getProductByName(name);
@@ -56,7 +52,7 @@ public class ProductController {
         return productService.updateProduct(name, product);
     }
 
-    @DeleteMapping("delete/{name}")
+    @DeleteMapping("{name}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable @Valid String name) {
         productService.deleteProduct(name);

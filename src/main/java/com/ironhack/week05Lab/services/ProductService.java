@@ -1,6 +1,5 @@
 package com.ironhack.week05Lab.services;
 
-import com.ironhack.week05Lab.exceptions.ProductIdNotFoundException;
 import com.ironhack.week05Lab.exceptions.ProductNameNotFoundException;
 import com.ironhack.week05Lab.models.Product;
 import jakarta.annotation.PostConstruct;
@@ -34,15 +33,6 @@ public class ProductService {
 
     public List<Product> getAllProducts() {
         return products;
-    }
-
-    public Product getProductById(UUID id) {
-        for (Product product : products) {
-            if (product.getId().equals(id)) {
-                return product;
-            }
-        }
-        throw new ProductIdNotFoundException(id);
     }
 
     public Product getProductByName(String name) {

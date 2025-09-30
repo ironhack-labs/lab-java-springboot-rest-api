@@ -1,9 +1,8 @@
 package com.ironhack.week05Lab.models;
 
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.Length;
 
 import java.util.UUID;
 
@@ -18,17 +17,17 @@ quantity (positive number)
 public class Product {
     private final UUID id = UUID.randomUUID();
 
-    @NotNull
-    @Length(min = 2, max = 30, message = "Name must be between 2 and 30 characters!")
+    @NotBlank(message = "Name must not be blank")
+    @Size(min = 3, message = "Name must be at least 3 characters!")
     private String name;
 
     @Min(0)
     private double price;
 
-    @NotNull
+    @NotBlank(message = "Category must not be blank")
     private String category;
 
-    @Min(0)
+    @Min(1)
     private int quantity;
 
     public UUID getId() {

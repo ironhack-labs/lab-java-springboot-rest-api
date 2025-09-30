@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/customers", headers = "API-Key=123456")
+@RequestMapping(path = "/api/customers")
 public class CustomerController {
     private final CustomerService customerService;
 
