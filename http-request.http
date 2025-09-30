@@ -1,0 +1,41 @@
+###
+
+GET http://localhost:8080/products/all
+Content-Type: application/json
+api-Key: 123456
+
+###
+GET http://localhost:8080/products/byName/shampoo
+Content-Type: application/json
+api-Key: 123456
+
+###
+GET http://localhost:8080/products/filterByCategory?category=cosmetics
+Content-Type: application/json
+api-Key: 123456
+
+###
+POST http://localhost:8080/products/add
+Content-Type: application/json
+api-key: 123456
+
+{
+  "id" : 1,
+  "name": "Ironhack",
+  "price": 10,
+  "category": "cosmetics",
+  "quantity": 10
+}
+
+###
+
+PUT http://localhost:8080/products/1
+Content-Type: application/json
+api-key: 123456
+
+{
+  "name": "Potato",
+  "price": 10,
+  "category": "cosmetics",
+  "quantity": 10
+}
