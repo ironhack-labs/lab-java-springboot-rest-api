@@ -15,7 +15,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-    private static final String API_KEY = "123654";
+    private static final String API_KEY = "123456";
 
     public ProductController(ProductService productService) {
         this.productService = productService;

@@ -1,5 +1,6 @@
 package org.example.springbootrestapi.Service;
 
+import org.example.springbootrestapi.Exception.ProductNotFoundException;
 import org.example.springbootrestapi.Model.Product;
 import org.springframework.stereotype.Service;
 
@@ -28,16 +29,24 @@ public class ProductService {
     }
 
     public Product getProductByName(String name) {
-        return productMap.get(name);
+        Product product = productMap.get(name);
+        if (product == null) {
+            throw new ProductNotFoundException("Product not found: " + name);
+        }
+        return product;
     }
 
     public void updateProduct(String name, Product updatedProduct) {
-        if (productMap.containsKey(name)) {
-            productMap.put(name, updatedProduct);
+        if (!productMap.containsKey(name)) {
+            throw new ProductNotFoundException("Product not found: " + name);
         }
+        productMap.put(name, updatedProduct);
     }
 
     public void deleteProduct(String name) {
+        if (!productMap.containsKey(name)) {
+            throw new ProductNotFoundException("Product not found: " + name);
+        }
         productMap.remove(name);
     }
 
