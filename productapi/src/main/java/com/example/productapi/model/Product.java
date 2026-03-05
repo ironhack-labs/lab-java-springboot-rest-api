@@ -1,0 +1,40 @@
+package com.example.productapi.model;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
+public class Product {
+
+    @NotBlank(message = "Product name cannot be blank")
+    @Size(min = 3, message = "Product name must be at least 3 characters")
+    private String name;
+
+    @Positive(message = "Price must be positive")
+    private double price;
+
+    @NotBlank(message = "Category cannot be blank")
+    private String category;
+
+    @Positive(message = "Quantity must be positive")
+    private int quantity;
+
+    public Product() {}
+
+    public Product(String name, double price, String category, int quantity) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.quantity = quantity;
+    }
+
+    public String getName() { return name; }
+    public double getPrice() { return price; }
+    public String getCategory() { return category; }
+    public int getQuantity() { return quantity; }
+
+    public void setName(String name) { this.name = name; }
+    public void setPrice(double price) { this.price = price; }
+    public void setCategory(String category) { this.category = category; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
+}
