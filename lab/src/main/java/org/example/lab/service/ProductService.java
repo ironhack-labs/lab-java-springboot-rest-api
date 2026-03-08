@@ -1,5 +1,7 @@
 package org.example.lab.service;
 
+import org.example.lab.exception.InvalidPriceRangeException;
+import org.example.lab.exception.ProductNotFoundException;
 import org.example.lab.model.Product;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,7 @@ public class ProductService {
                 return p;
             }
         }
-        return null;
+        throw new ProductNotFoundException("Product not found with name: " + name);
     }
 
     public void addNewProduct(Product product) {
@@ -48,8 +50,10 @@ public class ProductService {
         for (Product p : products) {
             if (p.getName().equalsIgnoreCase(name)) {
                 products.remove(p);
+                return;
             }
         }
+        throw new ProductNotFoundException("Product not found with name: " + name);
     }
 
     public List<Product> getProductsByCategory(String category) {
@@ -68,6 +72,9 @@ public class ProductService {
     }
 
     public List<Product> getProductsByPrice(double min, double max) {
+        if (min > max) {
+            throw new InvalidPriceRangeException("Minimum price cannot be greater than maximum price");
+        }
         List<Product> filteredProduct = new ArrayList<>();
 
         for (Product p : products) {
