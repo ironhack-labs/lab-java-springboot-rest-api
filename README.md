@@ -10,7 +10,7 @@
 
   
 ## Deliverables
-pu
+
 - Upon completion, add your solution to git.
 - Then commit to git and push to your repo on GitHub.
 - Make a pull request and paste the pull request link in the submission field in the Student Portal.
@@ -76,3 +76,153 @@ pu
 - Use meaningful variable and method names
 - Return appropriate HTTP status codes
 - Include validation messages in responses
+
+---
+
+## ✅ Project Status: COMPLETED
+
+All required tasks have been implemented:
+
+- ✅ Spring Boot application with required dependencies
+- ✅ Product class with validation
+- ✅ ProductService with all required methods
+- ✅ ProductController with all endpoints and API-Key authentication
+- ✅ Customer class with validation
+- ✅ CustomerService with CRUD operations
+- ✅ CustomerController with all endpoints and API-Key authentication
+- ✅ Global exception handler for error handling
+- ✅ Proper package structure and dependency injection
+- ✅ Postman collection for testing all endpoints
+
+---
+
+## 🚀 Running the Application
+
+### Prerequisites
+- Java 17+
+- Maven 3.6+
+
+### Start the Application
+```bash
+mvn spring-boot:run
+```
+Or using the Maven wrapper:
+```bash
+./mvnw spring-boot:run
+```
+
+The API will be available at: **http://localhost:8080**
+
+---
+
+## 🧪 Testing with Postman
+
+1. **Import the Postman Collection:**
+   - Open Postman
+   - Click "Import" → Select `Postman_Collection.json`
+   - All endpoints are pre-configured with API key header
+
+2. **Run Tests:**
+   - Use the imported collection to test all endpoints
+   - Includes error test cases for validation
+
+**API Key:** `123456` (required for all requests in the `Api-Key` header)
+
+**For detailed testing guide:** See `POSTMAN_TESTING_GUIDE.md`
+
+---
+
+## 📋 Alternative: cURL Testing
+
+For command-line testing, see `CURL_TESTING_COMMANDS.md` for cURL examples.
+
+### Quick Test Example:
+```bash
+curl -X GET "http://localhost:8080/api/products" \
+  -H "Api-Key: 123456"
+```
+
+---
+
+## 📂 Project Structure
+
+```
+src/main/java/com/example/demo/
+├── DemoApplication.java                 # Spring Boot entry point
+├── controller/
+│   ├── ProductController.java           # Product REST endpoints
+│   └── CustomerController.java          # Customer REST endpoints
+├── model/
+│   ├── Product.java                    # Product entity with validation
+│   └── Customer.java                   # Customer entity with validation
+├── service/
+│   ├── ProductService.java             # Product business logic
+│   └── CustomerService.java            # Customer business logic
+└── exception/
+    ├── InvalidPriceRangeException.java
+    ├── MissingApiKeyException.java
+    └── ProductNotFoundException.java
+```
+
+---
+
+## 🔗 API Endpoints
+
+### Products API
+- `GET /api/products` - Get all products
+- `GET /api/products/{id}` - Get product by ID
+- `GET /api/products/name?name={name}` - Search by name
+- `GET /api/products/category?category={category}` - Filter by category
+- `GET /api/products/price-range?min={min}&max={max}` - Filter by price range
+- `POST /api/products` - Create product
+- `PUT /api/products/{name}` - Update product
+- `PATCH /api/products/{name}` - Partial update
+- `DELETE /api/products/{name}` - Delete product
+
+### Customers API
+- `GET /api/customers` - Get all customers
+- `GET /api/customers/{id}` - Get customer by ID
+- `GET /api/customers/email?email={email}` - Search by email
+- `POST /api/customers` - Create customer
+
+---
+
+## 📝 Validation Rules
+
+### Product
+- `name`: Required, minimum 3 characters
+- `price`: Required, must be positive (> 0)
+- `category`: Required, cannot be blank
+- `quantity`: Required, must be >= 0
+
+### Customer
+- `name`: Required, cannot be blank
+- `email`: Required, must be valid email format
+- `age`: Required, must be >= 18
+- `address`: Required, cannot be blank
+
+---
+
+## 🔐 Authentication
+
+All endpoints require the following header:
+```
+Api-Key: 123456
+```
+
+Without this header, requests will return: **400 Bad Request - "Api-key is missing"**
+
+---
+
+## 🆘 Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Port 8080 already in use | Change `server.port` in `application.properties` |
+| Missing API key error | Add `Api-Key: 123456` header to requests |
+| Validation errors | Check request body against validation rules |
+| Connection refused | Ensure application is running |
+
+---
+
+**Last Updated:** March 10, 2026

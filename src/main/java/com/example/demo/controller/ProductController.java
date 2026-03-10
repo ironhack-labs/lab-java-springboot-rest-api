@@ -69,6 +69,21 @@ public class ProductController {
         return productService.findByPriceRange(min, max);
     }
 
+    @PutMapping("{name}")
+    public Product updateProduct(@RequestHeader("Api-Key") String apiKey, @PathVariable  String name, @Valid @RequestBody Product product){
+     return  productService.fullUpdate(name,product);
+    }
+
+    @DeleteMapping("{name}")
+    public Product deleteProduct(@RequestHeader("Api-Key") String apiKey, @PathVariable  String name){
+        return productService.delete(name);
+    }
+    @PatchMapping("{name}")
+    public Product partiallyUpdateProduct(@PathVariable  String name, @Valid @RequestBody Product product){
+        return productService.partialUpdate(name, product);
+    }
+
+
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestHeader("Api-Key") String apiKey,
             @Valid @RequestBody Product product) {
