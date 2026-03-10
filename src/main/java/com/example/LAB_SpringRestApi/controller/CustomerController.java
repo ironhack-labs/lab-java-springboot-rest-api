@@ -15,7 +15,6 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    // Constructor Injection (Autowired ehtiyac yoxdur)
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
