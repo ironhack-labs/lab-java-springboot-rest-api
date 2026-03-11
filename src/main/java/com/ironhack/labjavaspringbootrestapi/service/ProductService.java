@@ -27,14 +27,55 @@ public class ProductService {
     }
 
     public List<Product> findByName(String name) {
-        return products.values().stream()
-                .filter(c -> c.getName().toLowerCase().contains(name.toLowerCase()))
-                .toList();
+        List<Product> filtered = new ArrayList<>();
+        String lowerName = name.toLowerCase();
+        for (Product c: products.values()) {
+            if (c.getName().toLowerCase().contains(lowerName)) {
+                filtered.add(c);
+            }
+        }
+        return filtered;
     }
 
     public Product create(String name, String category, int quantity, double price) {
-        Product newProduct = new Product(nextId++, name, category, quantity, price);
-        products.put(newProduct.getId(), newProduct);
-        return newProduct;
+        Product product = new Product(nextId++, name, category, quantity, price);
+        products.put(product.getId(), product);
+        return product;
+    }
+
+    public Product fullUpdate(Long id, String name, String category, int quantity, double price) {
+        Product product = findById(id);
+
+        product.setName(name);
+        product.setCategory(category);
+        product.setQuantity(quantity);
+        product.setPrice(price);
+
+        return product;
+    }
+
+    public Product partialUpdate(Long id, String name, String category, Integer quantity, Double price) {
+        Product existingProduct = findById(id);
+
+        if (name != null) {
+            existingProduct.setName(name);
+        }
+        if (category != null) {
+            existingProduct.setCategory(category);
+        }
+        if (quantity != null) {
+            existingProduct.setQuantity(quantity);
+        }
+        if (price != null) {
+            existingProduct.setPrice(price);
+        }
+
+        return existingProduct;
+    }
+
+    public void delete(Long id) {
+
+        findById(id);
+        products.remove(id);
     }
 }

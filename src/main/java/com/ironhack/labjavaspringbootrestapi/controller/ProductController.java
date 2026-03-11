@@ -2,10 +2,9 @@ package com.ironhack.labjavaspringbootrestapi.controller;
 
 import com.ironhack.labjavaspringbootrestapi.model.Product;
 import com.ironhack.labjavaspringbootrestapi.service.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,32 +12,44 @@ import java.util.List;
 @RestController
 @RequestMapping("api/products")
 public class ProductController {
-    private ProductService productService;
+    private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
+
     @GetMapping
-    public List<Product> getAllProducts() {
+    public List<Product> getContact() {
         return productService.findAll();
     }
 
-    @GetMapping("/{name}")
-    public List<Product> getProduct(@RequestParam(required = false) String name) {
-        List<Product> products = productService.findAll();
+    @GetMapping("/{id}")
+    public Product getContactById(@PathVariable Long id) {
+        return productService.findById(id);
+    }
 
-        if(name != null && !name.isBlank()) {
-            List<Product> filtered = new ArrayList<>();
-            String lowerName = name.toLowerCase();
-            for (Product p: products) {
-                if (p.getName().toLowerCase().contains(lowerName)) {
-                    filtered.add(p);
-                }
-            }
-            products = filtered;
+    @GetMapping("/search")
+    public List<Product> getContacts(@RequestParam(required = false) String name) {
+        if (name != null && !name.isBlank()) {
+            return productService.findByName(name);
         }
+        return productService.findAll();
+    }
 
-        return products;
+    @PutMapping("/{id}")
+    public Product fullUpdateContact(@PathVariable Long id, @Valid @RequestBody Product product) {
+        return productService.fullUpdate(id, product.getName(), product.getCategory(), product.getQuantity(), product.getPrice());
+    }
+
+    @PatchMapping("/{id}")
+    public Product partialUpdateContact(@PathVariable Long id, @RequestBody Product product) {
+        return productService.fullUpdate(id, product.getName(), product.getCategory(), product.getQuantity(), product.getPrice());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteContact(@PathVariable Long id) {
+        productService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
