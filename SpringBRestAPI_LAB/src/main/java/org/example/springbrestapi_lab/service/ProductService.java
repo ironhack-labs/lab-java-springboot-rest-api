@@ -1,7 +1,7 @@
 package org.example.springbrestapi_lab.service;
 
 import org.example.springbrestapi_lab.exception.InvalidPriceRangeException;
-import org.example.springbrestapi_lab.exception.ProductNotFoundException;
+import org.example.springbrestapi_lab.exception.ResourceNotFoundException;
 import org.example.springbrestapi_lab.model.Product;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class ProductService {
         return products.stream()
                 .filter(product -> product.getName().equalsIgnoreCase(name))
                 .findFirst()
-                .orElseThrow(() -> new ProductNotFoundException("Product not found with name: " + name));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with name: " + name));
     }
 
     public Product updateProduct(String name, Product updatedProduct) {
@@ -51,7 +51,7 @@ public class ProductService {
                 .toList();
 
         if (filteredProducts.isEmpty()) {
-            throw new ProductNotFoundException("No products found in category: " + category);
+            throw new ResourceNotFoundException("No products found in category: " + category);
         }
 
         return filteredProducts;
@@ -67,7 +67,7 @@ public class ProductService {
                 .toList();
 
         if (filteredProducts.isEmpty()) {
-            throw new ProductNotFoundException("No products found in price range: " + min + " - " + max);
+            throw new ResourceNotFoundException("No products found in price range: " + min + " - " + max);
         }
 
         return filteredProducts;

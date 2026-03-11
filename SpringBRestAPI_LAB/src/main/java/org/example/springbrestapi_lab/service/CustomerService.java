@@ -1,5 +1,6 @@
 package org.example.springbrestapi_lab.service;
 
+import org.example.springbrestapi_lab.exception.ResourceNotFoundException;
 import org.example.springbrestapi_lab.model.Customer;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class CustomerService {
         return customers.stream()
                 .filter(customer -> customer.getEmail().equalsIgnoreCase(email))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Customer not found with email: " + email));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with email: " + email));
     }
 
     public Customer updateCustomer(String email, Customer updatedCustomer) {
