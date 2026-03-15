@@ -1,81 +1,68 @@
 package com.ironhack.labjavaspringbootrestapi.service;
 
+import com.ironhack.labjavaspringbootrestapi.exception.InvalidPriceRangeException;
+import com.ironhack.labjavaspringbootrestapi.exception.ResourceNotFoundException;
 import com.ironhack.labjavaspringbootrestapi.model.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
-    private final Map<Long, Product> products = new HashMap<>();
-    private Long nextId = 1L;
+    private final List<Product> products = new ArrayList<>();
 
     public ProductService() {
-        Product product = new Product(nextId,"Salam", "Sagol", 23, 22.3);
-        products.put(product.getId(), product);
+        products.add(new Product("Laptop", "Electronics", 10, 1500.0));
+    }
+
+    public Product create(Product product) {
+        products.add(product);
+        return product;
     }
 
     public List<Product> findAll() {
-        return new ArrayList<>(products.values());
+        return products;
     }
 
-    public Product findById(Long id) {
-        return products.get(id);
+    public Product findByName(String name) {
+        return products.stream()
+                .filter(p -> p.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with name: " + name));
     }
 
-    public List<Product> findByName(String name) {
-        List<Product> filtered = new ArrayList<>();
-        String lowerName = name.toLowerCase();
-        for (Product c: products.values()) {
-            if (c.getName().toLowerCase().contains(lowerName)) {
-                filtered.add(c);
-            }
-        }
-        return filtered;
-    }
+    public Product update(String name, Product updatedProduct) {
 
-    public Product create(String name, String category, int quantity, double price) {
-        Product product = new Product(nextId++, name, category, quantity, price);
-        products.put(product.getId(), product);
-        return product;
-    }
-
-    public Product fullUpdate(Long id, String name, String category, int quantity, double price) {
-        Product product = findById(id);
-
-        product.setName(name);
-        product.setCategory(category);
-        product.setQuantity(quantity);
-        product.setPrice(price);
-
-        return product;
-    }
-
-    public Product partialUpdate(Long id, String name, String category, Integer quantity, Double price) {
-        Product existingProduct = findById(id);
-
-        if (name != null) {
-            existingProduct.setName(name);
-        }
-        if (category != null) {
-            existingProduct.setCategory(category);
-        }
-        if (quantity != null) {
-            existingProduct.setQuantity(quantity);
-        }
-        if (price != null) {
-            existingProduct.setPrice(price);
-        }
+        Product existingProduct = findByName(name);
+        existingProduct.setCategory(updatedProduct.getCategory());
+        existingProduct.setPrice(updatedProduct.getPrice());
+        existingProduct.setQuantity(updatedProduct.getQuantity());
 
         return existingProduct;
     }
 
-    public void delete(Long id) {
+    public void delete(String name) {
+        Product product = findByName(name);
+        products.remove(product);
+    }
 
-        findById(id);
-        products.remove(id);
+    public List<Product> findByCategory(String category) {
+
+        return products.stream()
+                .filter(p -> p.getCategory().equalsIgnoreCase(category))
+                .collect(Collectors.toList());
+
+    }
+
+    public List<Product> findByPriceRange(double min, double max) {
+        if (min > max || min < 0) {
+            throw new InvalidPriceRangeException("Invalid price range provided.");
+        }
+
+        return products.stream()
+                .filter(p -> p.getPrice() >= min && p.getPrice() <= max)
+                .collect(Collectors.toList());
     }
 }

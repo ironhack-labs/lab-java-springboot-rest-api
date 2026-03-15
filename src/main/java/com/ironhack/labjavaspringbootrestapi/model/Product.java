@@ -1,14 +1,13 @@
 package com.ironhack.labjavaspringbootrestapi.model;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class Product {
-    private Long id;
 
     @NotBlank(message = "Name is required")
-    @Min(3)
+    @Size(min = 3, message = "Name must be at least 3 characters")
     private String name;
 
     @Positive(message = "Price must be positive")
@@ -22,52 +21,22 @@ public class Product {
 
     public Product() { }
 
-    public Product(Long id, String name, String category, int quantity, double price) {
-        this.id = id;
+    public Product(String name, String category, int quantity, double price) {
         this.name = name;
         this.category = category;
         this.quantity = quantity;
         this.price = price;
-
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
 
-    public String getName() {
-        return name;
-    }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 }

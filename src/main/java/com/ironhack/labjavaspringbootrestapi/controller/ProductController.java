@@ -1,55 +1,72 @@
 package com.ironhack.labjavaspringbootrestapi.controller;
 
+import com.ironhack.labjavaspringbootrestapi.exception.InvalidApiKeyException;
 import com.ironhack.labjavaspringbootrestapi.model.Product;
 import com.ironhack.labjavaspringbootrestapi.service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/products")
+@RequestMapping("/products")
 public class ProductController {
+
     private final ProductService productService;
+    private static final String VALID_API_KEY = "123456";
 
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
+    private void validateApiKey(String apiKey) {
+        if (!VALID_API_KEY.equals(apiKey)) {
+            throw new InvalidApiKeyException("Invalid API Key");
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> createProduct(@RequestHeader("API-Key") String apiKey, @Valid @RequestBody Product product) {
+        validateApiKey(apiKey);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(product));
+    }
 
     @GetMapping
-    public List<Product> getContact() {
+    public List<Product> getAllProducts(@RequestHeader("API-Key") String apiKey) {
+        validateApiKey(apiKey);
         return productService.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Product getContactById(@PathVariable Long id) {
-        return productService.findById(id);
+    @GetMapping("/{name}")
+    public Product getProductByName(@RequestHeader("API-Key") String apiKey, @PathVariable String name) {
+        validateApiKey(apiKey);
+        return productService.findByName(name);
     }
 
-    @GetMapping("/search")
-    public List<Product> getContacts(@RequestParam(required = false) String name) {
-        if (name != null && !name.isBlank()) {
-            return productService.findByName(name);
-        }
-        return productService.findAll();
+    @PutMapping("/{name}")
+    public Product updateProduct(@RequestHeader("API-Key") String apiKey, @PathVariable String name, @Valid @RequestBody Product product) {
+        validateApiKey(apiKey);
+        return productService.update(name, product);
     }
 
-    @PutMapping("/{id}")
-    public Product fullUpdateContact(@PathVariable Long id, @Valid @RequestBody Product product) {
-        return productService.fullUpdate(id, product.getName(), product.getCategory(), product.getQuantity(), product.getPrice());
-    }
-
-    @PatchMapping("/{id}")
-    public Product partialUpdateContact(@PathVariable Long id, @RequestBody Product product) {
-        return productService.fullUpdate(id, product.getName(), product.getCategory(), product.getQuantity(), product.getPrice());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteContact(@PathVariable Long id) {
-        productService.delete(id);
+    @DeleteMapping("/{name}")
+    public ResponseEntity<Void> deleteProduct(@RequestHeader("API-Key") String apiKey, @PathVariable String name) {
+        validateApiKey(apiKey);
+        productService.delete(name);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/category/{category}")
+    public List<Product> getProductsByCategory(@RequestHeader("API-Key") String apiKey, @PathVariable String category) {
+        validateApiKey(apiKey);
+        return productService.findByCategory(category);
+    }
+
+    @GetMapping("/price")
+    public List<Product> getProductsByPriceRange(@RequestHeader("API-Key") String apiKey, @RequestParam double min, @RequestParam double max) {
+        validateApiKey(apiKey);
+        return productService.findByPriceRange(min, max);
     }
 }
