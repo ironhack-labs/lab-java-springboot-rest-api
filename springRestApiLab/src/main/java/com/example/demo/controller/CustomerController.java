@@ -1,14 +1,13 @@
 package com.example.demo.controller;
 
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.exception.UnauthorizedException;
 import com.example.demo.model.Customer;
 import com.example.demo.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * REST Controller for managing Customer resources.
@@ -52,7 +51,7 @@ public class CustomerController {
     public ResponseEntity<String> addCustomer(@RequestHeader(value = "API-Key", required = false) String apiKey,
                                               @Valid @RequestBody Customer customer) {
         if (isUnauthorized(apiKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing API key");
+            throw new UnauthorizedException("Invalid or missing API key");
         }
         customerService.addCustomer(customer);
         return ResponseEntity.status(HttpStatus.CREATED).body("Customer added successfully!");
@@ -67,7 +66,7 @@ public class CustomerController {
     @GetMapping
     public ResponseEntity<?> getAllCustomers(@RequestHeader(value = "API-Key", required = false) String apiKey) {
         if (isUnauthorized(apiKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing API key");
+            throw new UnauthorizedException("Invalid or missing API key");
         }
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
@@ -83,7 +82,7 @@ public class CustomerController {
     public ResponseEntity<?> getCustomerByEmail(@RequestHeader(value = "API-Key", required = false) String apiKey,
                                                 @PathVariable String email) {
         if (isUnauthorized(apiKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing API key");
+            throw new UnauthorizedException("Invalid or missing API key");
         }
         Customer customer = customerService.getCustomerByEmail(email);
         if (customer == null) {
@@ -105,7 +104,7 @@ public class CustomerController {
                                                  @PathVariable String email,
                                                  @Valid @RequestBody Customer updatedCustomer) {
         if (isUnauthorized(apiKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing API key");
+            throw new UnauthorizedException("Invalid or missing API key");
         }
         boolean updated = customerService.updateCustomer(email, updatedCustomer);
         if (!updated) {
@@ -125,7 +124,7 @@ public class CustomerController {
     public ResponseEntity<String> deleteCustomer(@RequestHeader(value = "API-Key", required = false) String apiKey,
                                                  @PathVariable String email) {
         if (isUnauthorized(apiKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing API key");
+            throw new UnauthorizedException("Invalid or missing API key");
         }
         boolean deleted = customerService.deleteCustomer(email);
         if (!deleted) {
