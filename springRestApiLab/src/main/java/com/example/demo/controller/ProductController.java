@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.exception.UnauthorizedException;
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
 import jakarta.validation.Valid;
@@ -51,7 +52,7 @@ public class ProductController {
     public ResponseEntity<String> addProduct(@RequestHeader(value = "API-Key", required = false) String apiKey,
                                              @Valid @RequestBody Product product) {
         if (isUnauthorized(apiKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing API key");
+            throw new UnauthorizedException("Invalid or missing API key");
         }
         productService.addProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body("Product added successfully!");
@@ -66,7 +67,7 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<?> getAllProducts(@RequestHeader(value = "API-Key", required = false) String apiKey) {
         if (isUnauthorized(apiKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing API key");
+            throw new UnauthorizedException("Invalid or missing API key");
         }
         return ResponseEntity.ok(productService.getAllProducts());
     }
@@ -82,7 +83,7 @@ public class ProductController {
     public ResponseEntity<?> getProductByName(@RequestHeader(value = "API-Key", required = false) String apiKey,
                                               @PathVariable String name) {
         if (isUnauthorized(apiKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing API key");
+            throw new UnauthorizedException("Invalid or missing API key");
         }
         Product product = productService.getProductByName(name);
         if (product == null) {
@@ -102,13 +103,13 @@ public class ProductController {
     @PutMapping("/{name}")
     public ResponseEntity<String> updateProduct(@RequestHeader(value = "API-Key", required = false) String apiKey,
                                                 @PathVariable String name,
-                                                @Valid @RequestBody Product updatedProduct) throws Throwable {
+                                                @Valid @RequestBody Product updatedProduct) {
         if (isUnauthorized(apiKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing API key");
+            throw new UnauthorizedException("Invalid or missing API key");
         }
         boolean updated = productService.updateProduct(name, updatedProduct);
         if (!updated) {
-            throw new Throwable("Product with name '" + name + "' not found");
+            throw new ResourceNotFoundException("Product with name '" + name + "' not found");
         }
         return ResponseEntity.ok("Product successfully updated!");
     }
@@ -124,11 +125,11 @@ public class ProductController {
     public ResponseEntity<String> deleteProduct(@RequestHeader(value = "API-Key", required = false) String apiKey,
                                                 @PathVariable String name) {
         if (isUnauthorized(apiKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing API key");
+            throw new UnauthorizedException("Invalid or missing API key");
         }
         boolean deleted = productService.deleteProduct(name);
         if (!deleted) {
-            throw new com.example.demo.exception.ResourceNotFoundException("Product with name '" + name + "' not found");
+            throw new ResourceNotFoundException("Product with name '" + name + "' not found");
         }
         return ResponseEntity.ok("Product successfully deleted!");
     }
@@ -144,7 +145,7 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProductsByCategory(@RequestHeader(value = "API-Key", required = false) String apiKey,
                                                                @PathVariable String category) {
         if (isUnauthorized(apiKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            throw new UnauthorizedException("Invalid or missing API key");
         }
         return ResponseEntity.ok(productService.getProductsByCategory(category));
     }
@@ -162,7 +163,7 @@ public class ProductController {
                                                                  @RequestParam double min,
                                                                  @RequestParam double max) {
         if (isUnauthorized(apiKey)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            throw new UnauthorizedException("Invalid or missing API key");
         }
         if (min > max) {
             throw new IllegalArgumentException("Invalid price range: min cannot be greater than max");
