@@ -1,5 +1,79 @@
-### GET request to example server
-GET https://examples.http-client.intellij.net/get
-    ?generated-in=IntelliJ IDEA
+### --- PRODUCT ENDPOINTS (port 8080) ---
 
-###
+### Create a new product
+POST http://localhost:8080/products
+API-Key: 123456
+Content-Type: application/json
+
+{
+  "name": "Laptop",
+  "price": 1200.0,
+  "category": "Electronics",
+  "quantity": 5
+}
+
+### Get all products
+GET http://localhost:8080/products
+API-Key: 123456
+
+### Get product by name
+GET http://localhost:8080/products/Laptop
+API-Key: 123456
+
+### Update product
+PUT http://localhost:8080/products/Laptop
+API-Key: 123456
+Content-Type: application/json
+
+{
+  "name": "Laptop",
+  "price": 999.0,
+  "category": "Electronics",
+  "quantity": 10
+}
+
+### Delete product
+DELETE http://localhost:8080/products/Laptop
+API-Key: 123456
+
+### Get products by category
+GET http://localhost:8080/products/category/Electronics
+API-Key: 123456
+
+### Get products by price range
+GET http://localhost:8080/products/price?min=100&max=2000
+API-Key: 123456
+
+
+### --- CUSTOMER ENDPOINTS (port 8080) ---
+
+### Create a new customer
+POST http://localhost:8080/customers
+Content-Type: application/json
+
+{
+  "name": "Manu",
+  "email": "manu@example.com",
+  "age": 25,
+  "address": "Calle Falsa 123"
+}
+
+### Get all customers
+GET http://localhost:8080/customers
+
+### Get customer by email
+GET http://localhost:8080/customers/manu@example.com
+
+### Update customer
+PUT http://localhost:8080/customers/manu@example.com
+Content-Type: application/json
+
+{
+  "name": "Manu Candela",
+  "email": "manu@example.com",
+  "age": 26,
+  "address": "Calle Nueva 456"
+}
+
+### Delete customer
+DELETE http://localhost:8080/customers/manu@example.com
