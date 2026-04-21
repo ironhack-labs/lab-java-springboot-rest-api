@@ -14,7 +14,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Handles @Valid validation errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -26,7 +25,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    // Handles missing or invalid API-Key
     @ExceptionHandler(MissingApiKeyException.class)
     public ResponseEntity<Map<String, String>> handleMissingApiKey(MissingApiKeyException ex) {
         Map<String, String> error = new HashMap<>();
@@ -34,7 +32,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
-    // Handles product not found
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleProductNotFound(ProductNotFoundException ex) {
         Map<String, String> error = new HashMap<>();
@@ -42,7 +39,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    // Handles customer not found
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleCustomerNotFound(CustomerNotFoundException ex) {
         Map<String, String> error = new HashMap<>();
@@ -50,7 +46,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    // Handles invalid price range
     @ExceptionHandler(InvalidPriceRangeException.class)
     public ResponseEntity<Map<String, String>> handleInvalidPriceRange(InvalidPriceRangeException ex) {
         Map<String, String> error = new HashMap<>();

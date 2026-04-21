@@ -19,19 +19,16 @@ public class ProductController {
     private final ProductService productService;
     private static final String API_KEY = "123456";
 
-    // Constructor injection
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    // Validates the API-Key header - throws MissingApiKeyException if invalid
     private void validateApiKey(String apiKey) {
         if (apiKey == null || !apiKey.equals(API_KEY)) {
             throw new MissingApiKeyException();
         }
     }
 
-    // POST /products - Create new product
     @PostMapping
     public ResponseEntity<Product> createProduct(
             @RequestHeader(value = "API-Key", required = false) String apiKey,
@@ -42,7 +39,6 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    // GET /products - Get all products
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts(
             @RequestHeader(value = "API-Key", required = false) String apiKey) {
@@ -51,7 +47,6 @@ public class ProductController {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
-    // GET /products/{name} - Get product by name
     @GetMapping("/{name}")
     public ResponseEntity<Product> getProductByName(
             @RequestHeader(value = "API-Key", required = false) String apiKey,
@@ -65,7 +60,6 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    // PUT /products/{name} - Update product
     @PutMapping("/{name}")
     public ResponseEntity<Product> updateProduct(
             @RequestHeader(value = "API-Key", required = false) String apiKey,
@@ -80,7 +74,6 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    // DELETE /products/{name} - Delete product
     @DeleteMapping("/{name}")
     public ResponseEntity<Void> deleteProduct(
             @RequestHeader(value = "API-Key", required = false) String apiKey,
@@ -94,7 +87,6 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    // GET /products/category/{category} - Get products by category
     @GetMapping("/category/{category}")
     public ResponseEntity<List<Product>> getProductsByCategory(
             @RequestHeader(value = "API-Key", required = false) String apiKey,
@@ -104,7 +96,6 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductsByCategory(category));
     }
 
-    // GET /products/price?min={min}&max={max} - Get products by price range
     @GetMapping("/price")
     public ResponseEntity<List<Product>> getProductsByPriceRange(
             @RequestHeader(value = "API-Key", required = false) String apiKey,

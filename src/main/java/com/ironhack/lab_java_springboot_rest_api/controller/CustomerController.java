@@ -16,25 +16,21 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    // Constructor injection
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
-    // POST /customers - Create new customer (no API-Key required)
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer) {
         Customer created = customerService.addCustomer(customer);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    // GET /customers - Get all customers
     @GetMapping
     public ResponseEntity<List<Customer>> getAllCustomers() {
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
 
-    // GET /customers/{email} - Get customer by email
     @GetMapping("/{email}")
     public ResponseEntity<Customer> getCustomerByEmail(@PathVariable String email) {
         Customer customer = customerService.getCustomerByEmail(email);
@@ -44,7 +40,6 @@ public class CustomerController {
         return ResponseEntity.ok(customer);
     }
 
-    // PUT /customers/{email} - Update customer
     @PutMapping("/{email}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable String email,
                                                    @Valid @RequestBody Customer updatedCustomer) {
@@ -55,7 +50,6 @@ public class CustomerController {
         return ResponseEntity.ok(customer);
     }
 
-    // DELETE /customers/{email} - Delete customer
     @DeleteMapping("/{email}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable String email) {
         boolean deleted = customerService.deleteCustomer(email);
