@@ -59,3 +59,14 @@ public class CustomerController {
         return ResponseEntity.noContent().build();
     }
 }
+
+//@PostMapping
+//    public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer) {
+//        Customer existingCustomer = customerService.getCustomerByEmail(customer.getEmail());
+//        if (existingCustomer != null) {
+//            throw new IllegalArgumentException("Customer with email " + customer.getEmail() + " already exists.");
+//        }
+//        Customer created = customerService.addCustomer(customer);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+//    }
+

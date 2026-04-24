@@ -1,5 +1,6 @@
 package com.ironhack.lab_java_springboot_rest_api.service;
 
+import com.ironhack.lab_java_springboot_rest_api.exception.CustomerAlreadyExistsException;
 import com.ironhack.lab_java_springboot_rest_api.model.Customer;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,12 @@ public class CustomerService {
     private List<Customer> customers = new ArrayList<>();
 
     public Customer addCustomer(Customer customer) {
+        // Need to check if a customer with the same email already exists, if so, throw an exception
+        for (Customer existing : customers) {
+            if (existing.getEmail().equalsIgnoreCase(customer.getEmail())) {
+                throw new CustomerAlreadyExistsException(customer.getEmail());
+            }
+        }
         customers.add(customer);
         return customer;
     }

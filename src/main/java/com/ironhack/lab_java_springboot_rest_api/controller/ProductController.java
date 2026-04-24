@@ -6,6 +6,7 @@ import com.ironhack.lab_java_springboot_rest_api.exception.ProductNotFoundExcept
 import com.ironhack.lab_java_springboot_rest_api.model.Product;
 import com.ironhack.lab_java_springboot_rest_api.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -109,3 +110,26 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductsByPriceRange(min, max));
     }
 }
+
+//    @PostMapping
+//    public ResponseEntity<Product> createProduct(
+//            @RequestHeader(value = "API-Key", required = false) String apiKey,
+//            @Valid @RequestBody @NotNull Product product) {
+//        validateApiKey(apiKey);
+//        Product existingProduct = productService.getProductByName(product.getName());
+//        // Check if product & update the qty.
+//        if (existingProduct != null) {
+//             existingProduct.setQuantity(existingProduct.getQuantity() + product.getQuantity());
+//             Product updatedProduct = productService.updateProduct(existingProduct.getName(), existingProduct);
+//             return ResponseEntity.ok(updatedProduct);
+//        }
+//
+//        Product created = productService.addProduct(product);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+//    }
+
+//        Check if a product with the same name already exists but not update the qty.
+//        Product existingProduct = productService.getProductByName(product.getName());
+//        if (existingProduct != null) {
+//            throw new IllegalArgumentException("Product with name " + product.getName() + " already exists.");
+//        }

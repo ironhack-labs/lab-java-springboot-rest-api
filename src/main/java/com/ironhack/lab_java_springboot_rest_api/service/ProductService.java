@@ -12,9 +12,17 @@ public class ProductService {
     private List<Product> products = new ArrayList<>();
 
     public Product addProduct(Product product) {
+        // Need to check if a product with the same name already exists, if so, update the quantity instead of adding a new product
+        for (Product existing : products) {
+            if (existing.getName().equalsIgnoreCase(product.getName())) {
+                existing.setQuantity(existing.getQuantity() + product.getQuantity());
+                return existing;
+            }
+        }
         products.add(product);
         return product;
     }
+
 
     public List<Product> getAllProducts() {
         return products;
@@ -28,6 +36,17 @@ public class ProductService {
         }
         return null;
     }
+
+    public Product getProductByQuantity(int quantity) {
+        for (Product product : products) {
+             if (product.getQuantity() == quantity) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+
 
     public Product updateProduct(String name, Product updateProduct) {
         for (Product product: products) {
