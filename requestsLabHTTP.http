@@ -1,0 +1,79 @@
+### --- PRODUCT ENDPOINTS (port 8080) ---
+
+### Create a new product & update the QTY if exist the product
+POST http://localhost:8080/products
+API-Key: 123456
+Content-Type: application/json
+
+{
+  "name": "GITHUB COPILOT SUBSCRIPTION YEARLY",
+  "price": 100.0,
+  "category": "SOFTWARE",
+  "quantity": 50
+}
+
+### Get all products
+GET http://localhost:8080/products
+API-Key: 123456
+
+### Get product by name
+GET http://localhost:8080/products/github copilot subscription yearly
+API-Key: 123456
+
+### Update product
+PUT http://localhost:8080/products/github copilot subscription yearly
+API-Key: 123456
+Content-Type: application/json
+
+{
+  "name": "GITHUB COPILOT SUBSCRIPTION YEARLY",
+  "price": 199.0,
+  "category": "SUBSCRIPTION",
+  "quantity": 100
+}
+
+### Delete product
+DELETE http://localhost:8080/products/github copilot subscription yearly
+API-Key: 123456
+
+### Get products by category
+GET http://localhost:8080/products/category/SUBSCRIPTION
+API-Key: 123456
+
+### Get products by price range
+GET http://localhost:8080/products/price?min=100&max=200
+API-Key: 123456
+
+
+### --- CUSTOMER ENDPOINTS (port 8080) ---
+
+### Create a new customer "verifiying the email does not exist".
+POST http://localhost:8080/customers
+Content-Type: application/json
+
+{
+  "name": "Manu",
+  "email": "manu@example.com",
+  "age": 25,
+  "address": "Calle Falsa 123"
+}
+
+### Get all customers
+GET http://localhost:8080/customers
+
+### Get customer by email
+GET http://localhost:8080/customers/manu@example.com
+
+### Update customer "but does not update the email because is the identifier of the customer"
+PUT http://localhost:8080/customers/manu@example.com
+Content-Type: application/json
+
+{
+  "name": "Manu Candela",
+  "email": "manu@exam.com",
+  "age": 26,
+  "address": "Calle Nueva 456"
+}
+
+### Delete customer
+DELETE http://localhost:8080/customers/manu@example.com
