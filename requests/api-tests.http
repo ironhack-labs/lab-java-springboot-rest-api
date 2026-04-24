@@ -1,0 +1,112 @@
+### Create product - valid
+POST http://localhost:8080/products
+API-Key: 123456
+Content-Type: application/json
+
+{
+  "name": "Laptop",
+  "price": 1200,
+  "category": "Electronics",
+  "quantity": 52
+}
+
+### Create product - invalid validation
+POST http://localhost:8080/products
+API-Key: 123456
+Content-Type: application/json
+
+{
+  "name": "TV",
+  "price": -50,
+  "category": "",
+  "quantity": 0
+}
+
+### Get all products
+GET http://localhost:8080/products
+API-Key: 123456
+
+### Get product by name
+GET http://localhost:8080/products/Laptop
+API-Key: 123456
+
+### Get product by category
+GET http://localhost:8080/products/category/Electronics
+API-Key: 123456
+
+### Get products by price range
+GET http://localhost:8080/products/price?min=100&max=1500
+API-Key: 123456
+
+### Invalid price range
+GET http://localhost:8080/products/price?min=1500&max=100
+API-Key: 123456
+
+### Update product
+PUT http://localhost:8080/products/Laptop
+API-Key: 123456
+Content-Type: application/json
+
+{
+  "name": "Laptop",
+  "price": 999,
+  "category": "Electronics",
+  "quantity": 10
+}
+
+### Delete product
+DELETE http://localhost:8080/products/Laptop
+API-Key: 123456
+
+### Missing API-Key
+GET http://localhost:8080/products
+
+### Invalid API-Key
+GET http://localhost:8080/products
+API-Key: wrong-key
+
+
+### Create customer - valid
+POST http://localhost:8080/customers
+Content-Type: application/json
+
+{
+  "name": "Hector",
+  "email": "hector@test.com",
+  "age": 30,
+  "address": "Madrid"
+}
+
+### Create customer - invalid validation
+POST http://localhost:8080/customers
+Content-Type: application/json
+
+{
+  "name": "",
+  "email": "wrong-email",
+  "age": 16,
+  "address": ""
+}
+
+### Get all customers
+GET http://localhost:8080/customers
+
+### Get customer by email
+GET http://localhost:8080/customers/hector@test.com
+
+### Update customer
+PUT http://localhost:8080/customers/hector@test.com
+Content-Type: application/json
+
+{
+  "name": "Hector Lima",
+  "email": "hector@test.com",
+  "age": 31,
+  "address": "Barcelona"
+}
+
+### Delete customer
+DELETE http://localhost:8080/customers/hector@test.com
+
+### Customer not found
+GET http://localhost:8080/customers/notfound@test.com
