@@ -1,0 +1,109 @@
+### ==========================================
+### PRODUCTOS
+### ==========================================
+
+### Crear producto (Éxito)
+POST http://localhost:8080/products
+Content-Type: application/json
+API-Key: 123456
+
+{
+  "name": "Monitor Curvo",
+  "price": 250.00,
+  "category": "Monitores",
+  "quantity": 10
+}
+
+### Crear producto (Error de validación)
+POST http://localhost:8080/products
+Content-Type: application/json
+API-Key: 123456
+
+{
+  "name": "Mo",
+  "price": -50,
+  "category": "",
+  "quantity": -2
+}
+
+### Error de autorización (Falta API-Key)
+GET http://localhost:8080/products
+
+### Obtener todos
+GET http://localhost:8080/products
+API-Key: 123456
+
+### Obtener por nombre
+GET http://localhost:8080/products/Monitor Curvo
+API-Key: 123456
+
+### Actualizar producto
+PUT http://localhost:8080/products/Monitor Curvo
+Content-Type: application/json
+API-Key: 123456
+
+{
+  "name": "Monitor Curvo",
+  "price": 220.00,
+  "category": "Monitores",
+  "quantity": 8
+}
+
+### Obtener por categoría
+GET http://localhost:8080/products/category/Monitores
+API-Key: 123456
+
+### Obtener por rango de precio
+GET http://localhost:8080/products/price?min=200&max=300
+API-Key: 123456
+
+### Eliminar producto
+DELETE http://localhost:8080/products/Monitor Curvo
+API-Key: 123456
+
+
+### ==========================================
+### CLIENTES
+### ==========================================
+
+### Crear cliente (Éxito)
+POST http://localhost:8080/customers
+Content-Type: application/json
+
+{
+  "name": "Carlos Gomez",
+  "email": "carlos@example.com",
+  "age": 35,
+  "address": "Calle Principal 1"
+}
+
+### Crear cliente (Error de validación)
+POST http://localhost:8080/customers
+Content-Type: application/json
+
+{
+  "name": "",
+  "email": "carlos-correo",
+  "age": 12,
+  "address": ""
+}
+
+### Obtener todos
+GET http://localhost:8080/customers
+
+### Obtener por email
+GET http://localhost:8080/customers/carlos@example.com
+
+### Actualizar cliente
+PUT http://localhost:8080/customers/carlos@example.com
+Content-Type: application/json
+
+{
+  "name": "Carlos Gomez Actualizado",
+  "email": "carlos@example.com",
+  "age": 36,
+  "address": "Avenida 2"
+}
+
+### Eliminar cliente
+DELETE http://localhost:8080/customers/carlos@example.com
