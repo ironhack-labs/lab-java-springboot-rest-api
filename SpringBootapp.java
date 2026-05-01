@@ -1,4 +1,4 @@
-package com.example.videostreamingservice;
+package week5;
 
 import java.math.BigDecimal;
 
