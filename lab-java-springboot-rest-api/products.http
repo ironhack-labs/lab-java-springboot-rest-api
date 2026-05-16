@@ -1,0 +1,53 @@
+### Crear producto
+POST http://localhost:8080/products
+API-Key: 123456
+Content-Type: application/json
+
+{
+  "name":"Mouse",
+  "price":25,
+  "category":"Electronics",
+  "quantity":5
+}
+
+
+### Obtener todos los productos
+GET http://localhost:8080/products
+API-Key: 123456
+
+
+### Buscar producto por nombre
+GET http://localhost:8080/products/Mouse
+API-Key: 123456
+
+
+### Buscar por categoría
+GET http://localhost:8080/products/category/Electronics
+API-Key: 123456
+
+
+### Buscar por rango de precio
+GET http://localhost:8080/products/price?min=10&max=50
+API-Key: 123456
+
+
+### Actualizar producto
+PUT http://localhost:8080/products/Mouse
+API-Key: 123456
+Content-Type: application/json
+
+{
+  "name":"Mouse Gamer",
+  "price":40,
+  "category":"Electronics",
+  "quantity":10
+}
+
+
+### Eliminar producto
+DELETE http://localhost:8080/products/Mouse Gamer
+API-Key: 123456
+
+### Ver todos los productos después del update
+GET http://localhost:8080/products
+API-Key: 123456

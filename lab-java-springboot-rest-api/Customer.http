@@ -1,0 +1,41 @@
+### Crear customer
+POST http://localhost:8080/customers
+Content-Type: application/json
+
+{
+  "name":"Nelvi",
+  "email":"nelvi@test.com",
+  "age":40,
+  "address":"Barcelona"
+}
+
+### Ver customers
+GET http://localhost:8080/customers
+
+### Buscar customer por email
+GET http://localhost:8080/customers/nelvi@test.com
+
+### Actualizar customer
+PUT http://localhost:8080/customers/nelvi@test.com
+Content-Type: application/json
+
+{
+  "name":"Nelvi Updated",
+  "email":"nelvi@test.com",
+  "age":42,
+  "address":"Barcelona Centro"
+}
+
+### Eliminar customer
+DELETE http://localhost:8080/customers/nelvi@test.com
+
+### Validación customer incorrecto
+POST http://localhost:8080/customers
+Content-Type: application/json
+
+{
+  "name":"",
+  "email":"bad-mail",
+  "age":15,
+  "address":""
+}
